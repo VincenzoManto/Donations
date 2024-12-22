@@ -162,7 +162,7 @@
             class="pop"
             src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
             width="30"
-            (click)="donation.amount = min(idx + 1, donation.lives - 1)"
+            (click)="donation.amount == (idx + 1) ? donation.amount = 0 : donation.amount = min(idx + 1, donation.lives - 1)"
             class="to-yellow"
           />
           <p>
@@ -177,7 +177,7 @@
             <input
               class="numberstyle"
               type="number"
-              min="1"
+              min="0"
               step="1"
               [(ngModel)]="donation.amount"
               max="{{ donation.lives - 1 }}"
