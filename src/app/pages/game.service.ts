@@ -63,13 +63,18 @@ export class GameService {
 
     Rect.prototype.bounce = function () {
       let dx = 0;
-
-      if (this.y < this.h || this.y > height - this.h) {
-        this.dy *= -1;
+      console.log(this.y)
+      if (this.y < this.h) {
+        this.dy = Math.abs(this.dy);
+      } else if (this.y > height - this.h) {
+        this.dy = -1 * Math.abs(this.dy);
       }
-      if (this.x < this.w || this.x > width - this.w) {
+      if (this.x < this.w) {
         dx = this.dx;
-        this.dx *= -1;
+        this.dx = Math.abs(this.dx);
+      } else if (this.x > width - this.w) {
+        dx = this.dx;
+        this.dx = -1 * Math.abs(this.dx);
       }
       return dx;
     };
@@ -159,15 +164,15 @@ export class GameService {
 
     document.onkeydown = (e) => {
       if(e.code === "Space" && !isRunning){
+        this.state = State.PLAYING;
         startGame()
       }
-      this.state = State.PLAYING;
     }
     canvas.onclick = () => {
       if (!isRunning) {
+        this.state = State.PLAYING;
         startGame();
       }
-      this.state = State.PLAYING;
     };
 
     function startGame() {
