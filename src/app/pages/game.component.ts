@@ -190,7 +190,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.state = State.PRE;
     }
 
-    const ref = new URLSearchParams(location.search).get("refer");
+    const ref = new URLSearchParams(location.href).get("referal");
 
     this.preSurvey = new Model(PreSurvey);
     // Ottiene il dispositivo e il browser dell'utente.
