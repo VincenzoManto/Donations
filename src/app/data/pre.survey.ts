@@ -9,6 +9,13 @@ export const PreSurvey = {
       name: "intro",
       elements: [
         {
+          type: "string",
+          name: "refer",
+          visibleIf: "false",
+          title: "Referer",
+          analytics: true
+        },
+        {
           type: "html",
           name: "introduction",
           html: `<p><h3>Introduction to this experiment game</h3>
