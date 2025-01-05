@@ -1,4 +1,4 @@
-<ng-container
+<div id="base"
   *ngIf="![status.PRE, status.POST, status.LEADERBOARD].includes(state)"
 >
   <div id="view">
@@ -18,8 +18,9 @@
       ⮄ Move your finger here ⮆
     </div>
     <div class="position-fixed top-0 text-center w-100 row left-50">
-      <small class="col-12"
-        >Match {{ currentMatch }} / {{ TOTAL_MATCHES }}</small
+      <small class="col-12 notranslate"
+        >Match 
+        {{ currentMatch }} / {{ TOTAL_MATCHES }}</small
       >
       <div class="col-6">
         <img
@@ -46,7 +47,7 @@
       </div>
     </div>
   </div>
-</ng-container>
+</div>
 
 <div
   class="row w-50 left-50 position-absolute justify-content-center m-2 align-items-center"
@@ -138,7 +139,7 @@
             width="80"
             class="m-auto to-yellow"
           />
-          <h3>Donate or keep?</h3>
+          <h3>Would you like to donate?</h3>
           <!--           <p>
             <strong>Ops!</strong> You lost all your lives. Your score is worth
             new lives that you can use to continue playing or donate to other
@@ -187,12 +188,16 @@
               [(ngModel)]="donation.message"
               placeholder="Your message *"
             ></textarea>
-            <hr>
+            <hr />
           </ng-container>
 
           <p>
-            <strong>Donate your score to other players</strong><br />
-            Icons show the lives available for donation
+            <strong>You can donate up to <strong class="notranslate"> {{donation.lives - 1}} </strong>  <img
+            src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
+            width="20"
+            class="to-yellow"
+          /> to other players</strong><br />
+            <!--Icons show the lives available for donation-->
           </p>
 
           <img
@@ -210,10 +215,10 @@
           />
 
           <div
-            class="numberstyle-qty justify-content-center w-auto m-auto d-flex justify-content-center"
+            class="numberstyle-qty justify-content-center w-auto m-1 d-flex justify-content-center"
           >
             <button
-              class="qty-btn qty-rem bg-warning"
+              class="qty-btn qty-rem bg-warning rounded-2 m-1"
               [disabled]="!donation.amount"
               [class.disabled]="!donation.amount"
               (click)="donation.amount = max(donation.amount - 1, 0)"
@@ -221,7 +226,7 @@
               -
             </button>
             <input
-              class="numberstyle"
+              class="numberstyle m-1"
               type="number"
               min="0"
               step="1"
@@ -230,7 +235,7 @@
               value="1"
             />
             <button
-              class="qty-btn qty-add bg-warning"
+              class="qty-btn qty-add bg-warning rounded-2 m-1"
               [class.disabled]="donation.amount === donation.lives - 1"
               (click)="
                 donation.amount = min(donation.amount + 1, donation.lives - 1)
@@ -243,20 +248,62 @@
             <small>
               I will donate
               <strong class="notranslate m-1">{{ donation.amount }}</strong>
-              lives to other<br />
+              <img
+              src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
+              width="20"
+              class="to-yellow"
+            />
+             to other<br />
               I will keep
               <strong class="notranslate m-1"
-                >{{ donation.lives - donation.amount }}
-              </strong>
-              lives for myself
+                >{{ donation.lives - donation.amount }}</strong><img
+                src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
+                width="20"
+                class="to-yellow"
+              /> 
+              for myself
             </small>
           </p>
-          <div class="form-check d-flex m-auto justify-content-center" style="gap: 1rem" *ngIf="!donation.amount">
-            <input class="form-check-input" type="checkbox" (change)="keep = !keep" id="flexCheckChecked" />
-            <label class="form-check-label font-small ml-2" for="flexCheckChecked">
+          <div class="alert alert-secondary">
+          <b>You are donating  <strong class="notranslate"> {{donation.amount}}</strong> 
+            <img
+            src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
+            width="20"
+            class="to-yellow"
+            style="filter: invert(0.11) hue-rotate(200deg);"
+          />
+          !</b>
+          <div
+            class="form-check d-flex m-auto justify-content-center"
+            style="gap: 1rem"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              (change)="keep = !keep"
+              id="flexCheckChecked"
+            />
+            <label
+              class="form-check-label font-small ml-2"
+              for="flexCheckChecked"
+              *ngIf="!donation.amount"
+            >
               &emsp;I confirm I'll keep all lives for myself *
             </label>
+            <label
+              class="form-check-label font-small ml-2"
+              for="flexCheckChecked"
+              *ngIf="donation.amount"
+            >
+              &emsp;I confirm I'll donate <strong class="notranslate"> {{donation.amount}}</strong><img
+              src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
+              width="20"
+              class="to-yellow"
+              style="filter: invert(0.11) hue-rotate(200deg);"
+            /> *
+            </label>
           </div>
+        </div>
           <!-- <div
             class="numberstyle-qty justify-content-center w-auto m-auto d-flex justify-content-center"
           >
@@ -291,15 +338,23 @@
       <div class="modal-footer">
         <button
           type="button"
+          *ngIf="currentMatch >= TOTAL_MATCHES"
           class="btn"
           (click)="next()"
-          [disabled]="(donation.amount === 0 && !keep) ||
-            !(donation.name && donation.message) && machineCode[0] === '1'
+        >
+          Go to final survey
+        </button>
+        <button
+          type="button"
+          *ngIf="currentMatch < TOTAL_MATCHES"
+          class="btn"
+          (click)="next()"
+          [disabled]="
+            (donation.amount === 0 && !keep) ||
+            (!(donation.name && donation.message) && machineCode[0] === '1')
           "
         >
-          {{
-            currentMatch >= TOTAL_MATCHES ? "Go to final survey" : "Next match"
-          }}
+          Next match
         </button>
       </div>
     </div>
@@ -367,22 +422,16 @@
           >
         </h1>
         <p class="text-muted m-1">donated by</p>
-        <h3>
+        <h3 class="notranslate">
           <b>{{ incomingDonation.name || "Anonymous benefactor" }}</b
           >&emsp;
-          <small
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="{{ incomingDonation.name }} is player #43"
-            class="cursor-question"
-            >🛈</small
-          >
+          
         </h3>
         <p *ngIf="incomingDonation.message" class="text-muted m-1">
           Who also left you a message
         </p>
         <quote
-          class="bg-light rounded-2 p-3 border m-2 d-inline-block"
+          class="bg-light rounded-2 p-3 border m-2 d-inline-block notranslate"
           *ngIf="incomingDonation.message"
         >
           {{ incomingDonation.message }}
@@ -406,9 +455,8 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="row align-items-center">
+        <h1 class="col-12 text-center"><b>PLEASE, READ ME</b></h1>
         <div class="col-12 col-md-8">
-          <h1><b>PLEASE, READ</b></h1>
-          <h3>How to Play</h3>
           <hr />
           <p>
             <b>Pong game</b>: Control the <b>yellow paddle</b> to keep the ball
@@ -416,22 +464,22 @@
           </p>
 
           <!--  <p><b>Controls:</b></p> -->
-          <!-- <ul> -->
+          <!-- <ul> 
           <p *ngIf="!isMobile()">
             Use <kbd>↑</kbd> <kbd>↓</kbd>, <kbd>W</kbd> <kbd>S</kbd>, or your
             mouse.
           </p>
           <p *ngIf="isMobile()">Drag your finger on the touchscreen.</p>
-          <!-- </ul> -->
-          <h5><b>Icons</b></h5>
+          </ul> 
+          <h5><b>Icons</b></h5>-->
           <p>
             <b>Lives </b
             ><img
               src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
               width="20"
               class="to-yellow"
-            />: If you miss the ball, you lose a life . Lose all lives, the
-            match ends.
+            />: If you miss the ball, you lose a life . <!--Lose all lives, the
+            match ends.-->
           </p>
           <p>
             <b>Points </b>
@@ -442,7 +490,7 @@
               alt="Points Icon"
             />: Earn points as you play.
           </p>
-          <h5><b>Structure</b></h5>
+          <!--<h5><b>Structure</b></h5>-->
           <div class="row position-relative">
             <hr
               class="position-absolute w-75 m-auto"
@@ -464,7 +512,7 @@
             </div>
           </div>
           <div *ngIf="tutorialStep === 1">
-            <b>Match 1:</b> Play and convert points into lives (500
+            <b>Match 1:</b> Play and convert points into lives <!--(500
             <img
               src="https://cdn-icons-gif.flaticon.com/6455/6455041.gif"
               width="20"
@@ -476,7 +524,7 @@
               src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
               width="20"
               class="to-yellow"
-            />).
+            />).-->
           </div>
           <div *ngIf="tutorialStep === 2">
             <b>Make a donation: </b>You can donate lives to others, or keep them
@@ -486,22 +534,24 @@
             players.
           </div>
           <div *ngIf="tutorialStep === 3">
-            <b>Match 2:</b> Play. Points add directly to your total score. No
-            lives are converted.
+            <b>Match 2:</b> Play with remaining lives.
           </div>
           <div *ngIf="tutorialStep === 4">
-            <b>Leaderboard:</b> Everyone will see how high yoy ranked with your
-            total score and how many lives you donated.
+            <b>Leaderboard:</b> Everyone will see how high yoy ranked and how many lives you donated.
 
-            <hr>
+            <hr />
             <button type="button" class="btn" (click)="state = status.WAITING">
               I understand
             </button>
           </div>
 
           <div *ngIf="tutorialStep < 4">
-            <hr>
-            <button type="button" class="btn" (click)="tutorialStep = tutorialStep + 1">
+            <hr />
+            <button
+              type="button"
+              class="btn"
+              (click)="tutorialStep = tutorialStep + 1"
+            >
               Next step
             </button>
           </div>
@@ -510,7 +560,6 @@
         <div class="col-12 col-md-4 example">
           <img
             src="assets/video.gif"
-
             alt="Game Preview"
             class="w-100 rounded-3 preview"
           />

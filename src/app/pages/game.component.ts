@@ -52,7 +52,7 @@ export class GameComponent implements OnInit, AfterViewInit {
    * Numero totale di vite.
    * @type {number}
    */
-  TOTAL_LIVES = 1;
+  TOTAL_LIVES = 5;
   /**
    * Array delle vite.
    * @type {number[]}
@@ -140,6 +140,11 @@ export class GameComponent implements OnInit, AfterViewInit {
     q3: null,
   };
 
+  lifeves = "";
+  lifevesMax = "";
+  lifevesKeep = "";
+ 
+
   correctAnswers = {
     q1: 'A',
     q2: 'B',
@@ -190,6 +195,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.state = State.PRE;
     }
 
+  
     this.preSurvey = new Model(PreSurvey);
     // Ottiene il dispositivo e il browser dell'utente.
     const device = this.surveyService.getDeviceAndBrowser();
@@ -392,7 +398,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       calls.push(
         this.http.put(
           SurveyService.getUrl(`lastDonation${this.machineCode[0]}`),
-          { ...this.donation, amount: Math.min(5, this.donation.amount) }
+          { ...this.donation, amount: this.donation.amount }
         )
       );
     }
