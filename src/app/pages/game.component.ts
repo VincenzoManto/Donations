@@ -52,7 +52,7 @@ export class GameComponent implements OnInit, AfterViewInit {
    * Numero totale di vite.
    * @type {number}
    */
-  TOTAL_LIVES = 5;
+  TOTAL_LIVES = 1;
   /**
    * Array delle vite.
    * @type {number[]}
@@ -368,7 +368,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
-    }, 500);
+    }, 300);
   }
 
   incrementAfterDonation() {

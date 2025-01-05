@@ -196,10 +196,13 @@
             src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
             width="20"
             class="to-yellow"
-          /> to other players</strong><br />
+          /> to other players </strong>
             <!--Icons show the lives available for donation-->
+            <i class=" hover-overlay fa-solid fa-circle-info m-1" style="filter: invert(0.6);" data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="You have too keep at least a life for yourself in order to play the last match"></i>
           </p>
-
+         
           <img
             *ngFor="let l of donationArray; let idx = index"
             [class.opacity-25]="idx >= donation.amount"
@@ -540,7 +543,7 @@
             <b>Leaderboard:</b> Everyone will see how high yoy ranked and how many lives you donated.
 
             <hr />
-            <button type="button" class="btn" (click)="state = status.WAITING">
+            <button type="button" class="btn m-1" (click)="state = status.WAITING">
               I understand
             </button>
           </div>
@@ -549,7 +552,7 @@
             <hr />
             <button
               type="button"
-              class="btn"
+              class="btn m-1"
               (click)="tutorialStep = tutorialStep + 1"
             >
               Next step
