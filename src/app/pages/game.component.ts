@@ -28,6 +28,11 @@ declare var SurveyTheme: any;
   styleUrls: ["./game.component.scss"],
 })
 export class GameComponent implements OnInit, AfterViewInit {
+
+  /**
+   * Flag per confermare la propria tirchieria
+   */
+  keep = false;
   /**
    * Numero di osservatori casuali.
    * @type {number}
@@ -135,6 +140,11 @@ export class GameComponent implements OnInit, AfterViewInit {
     q3: null,
   };
 
+  lifeves = "";
+  lifevesMax = "";
+  lifevesKeep = "";
+ 
+
   correctAnswers = {
     q1: 'A',
     q2: 'B',
@@ -185,9 +195,12 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.state = State.PRE;
     }
 
+    const ref = new URLSearchParams(location.href).get("referal");
+
     this.preSurvey = new Model(PreSurvey);
     // Ottiene il dispositivo e il browser dell'utente.
     const device = this.surveyService.getDeviceAndBrowser();
+    this.preSurvey.setValue('refer', ref);
     this.preSurvey.setValue('experiment_group', this.machineCode[0] === '0' ? 'anonimo' : 'non_anonimo');
     this.preSurvey.setValue('device', device.device);
     this.preSurvey.setValue('browser', device.browser);
@@ -357,7 +370,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
-    }, 500);
+    }, 200);
   }
 
   incrementAfterDonation() {
@@ -387,7 +400,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       calls.push(
         this.http.put(
           SurveyService.getUrl(`lastDonation${this.machineCode[0]}`),
-          { ...this.donation, amount: Math.min(5, this.donation.amount) }
+          { ...this.donation, amount: this.donation.amount }
         )
       );
     }

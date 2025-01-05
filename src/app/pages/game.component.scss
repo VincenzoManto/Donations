@@ -13,14 +13,40 @@ body {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  display: flex
-;
+  display: flex;
   align-items: center;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   text-align: center;
   justify-content: center;
   font-size: small;
+}
+
+.form-control:required:invalid {
+  border-bottom: 1px dashed #f00
+
+}
+
+.font-small {
+  font-size: small;
+}
+
+.example {
+  position: relative; 
+  &:after {
+    z-index: 9999;
+    position: absolute;
+    color: #fff;
+    top: 50%;
+    font-size: xx-large;
+    font-weight: bold;
+    left: 0;
+    transform: rotate(-45deg);
+    width: 100%;
+    content: "EXAMPLE";
+    opacity: 0.18;
+    text-align: center;
+  }
 }
 
 #view {
@@ -38,7 +64,7 @@ body {
 
 html,
 body {
-    overscroll-behavior-y: contain;
+  overscroll-behavior-y: contain;
 }
 
 #view canvas {
@@ -122,7 +148,6 @@ input {
   filter: hue-rotate(200deg);
 }
 
-
 .cursor-question {
   cursor: help;
 }
@@ -135,7 +160,6 @@ input {
 .opacity-25 {
   filter: grayscale(1);
 }
-
 
 .text-left {
   text-align: left;
@@ -151,7 +175,6 @@ kbd {
 
 .leaderrow:nth-child(odd) {
   background-color: #fff2;
-
 }
 
 .modal-content {
@@ -175,7 +198,7 @@ kbd {
 .instructions-image {
   flex: 1;
   margin: auto;
-  }
+}
 
 .instructions-image img {
   max-width: 100%;
@@ -189,7 +212,6 @@ kbd {
   align-items: start; /* Align items to the top of the grid row */
 }
 
-
 .items p {
   margin: 0; /* Remove default margin for clean alignment */
 }
@@ -198,14 +220,13 @@ kbd {
   *  Input
   */
 
-
 /*
  * Plugin style
  */
- .numberstyle-qty {
+.numberstyle-qty {
   position: relative;
   border-radius: 6px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   overflow: hidden;
   box-shadow: 0 3px 6px rgba(116, 116, 116, 0.25);
 }
@@ -231,9 +252,9 @@ kbd {
   cursor: pointer;
   z-index: 2;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   transition: all 250ms ease;
 }
 
@@ -257,13 +278,13 @@ kbd {
   box-shadow: 0px;
 }
 
-.numberstyle-qty input[type=number]::-webkit-inner-spin-button,
-.numberstyle-qty input[type=number]::-webkit-outer-spin-button {
+.numberstyle-qty input[type="number"]::-webkit-inner-spin-button,
+.numberstyle-qty input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.numberstyle-qty input[type=number] {
+.numberstyle-qty input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -286,7 +307,7 @@ kbd {
   overflow: hidden;
   z-index: 1;
   -webkit-animation: reveal 5000ms cubic-bezier(0.87, -0.41, 0.19, 1.44);
-          animation: reveal 5000ms cubic-bezier(0.87, -0.41, 0.19, 1.44);
+  animation: reveal 5000ms cubic-bezier(0.87, -0.41, 0.19, 1.44);
 }
 .more::before {
   display: block;
@@ -310,7 +331,8 @@ kbd {
 }
 
 @-webkit-keyframes reveal {
-  0%, 90% {
+  0%,
+  90% {
     bottom: -30px;
   }
   100% {
@@ -319,7 +341,8 @@ kbd {
 }
 
 @keyframes reveal {
-  0%, 90% {
+  0%,
+  90% {
     bottom: -30px;
   }
   100% {
@@ -332,7 +355,7 @@ ul.timeline {
   position: relative;
 }
 ul.timeline:before {
-  content: ' ';
+  content: " ";
   background: #d4d9df;
   display: inline-block;
   position: absolute;
@@ -346,7 +369,7 @@ ul.timeline > li {
   padding-left: 20px;
 }
 ul.timeline > li:before {
-  content: ' ';
+  content: " ";
   background: white;
   display: inline-block;
   position: absolute;
@@ -360,6 +383,6 @@ ul.timeline > li:before {
 
 .preview {
   object-fit: cover;
-  max-height: 50dvh;
+  /* max-height: 50dvh; */
   height: 100%;
 }

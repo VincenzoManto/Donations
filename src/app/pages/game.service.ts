@@ -173,7 +173,7 @@ export class GameService {
         startGame();
       }
     }; */
-    canvas.onclick = () => {
+    document.getElementById("base").onclick = () => {
       if (!isRunning) {
         this.state = State.PLAYING;
         startGame();
@@ -212,7 +212,7 @@ export class GameService {
 
       if (ball.AABB(paddle)) {
         that.audios["win"].play();
-        that.score += Math.round(Math.abs(ball.dx) * 100);
+        that.score += Math.round(250 / Math.abs(ball.dx));
         that.scoreContainer.update(that.score);
         ball.dx = Math.abs(ball.dx) + 0.1;
         ball.dy += ball.dy > 0 ? 0.1 : -0.1;

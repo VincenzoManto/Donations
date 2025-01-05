@@ -111,3 +111,10 @@
   --sjs-special-yellow-forecolor: rgba(48, 48, 48, 1);
   --sjs-special-yellow-light: rgba(255, 152, 20, 0.1);
 }
+
+
+#goog-gt-tt,
+[class*="goog-te-banner-frame"],
+[class*="goog-te-gadget"] {
+  display: none !important;
+}

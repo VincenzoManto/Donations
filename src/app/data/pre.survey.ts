@@ -3,10 +3,18 @@ export const PreSurvey = {
   description: "A study on decision-making",
   logoPosition: "right",
   completedHtml: "<h3>Now start playing!</h3>",
+
   pages: [
     {
       name: "intro",
       elements: [
+        {
+          type: "string",
+          name: "refer",
+          visibleIf: "false",
+          title: "Referer",
+          analytics: true
+        },
         {
           type: "html",
           name: "introduction",
@@ -95,6 +103,33 @@ We sincerely thank you for your time and valuable contribution. Should you have 
           ],
         },
         {
+          type: "dropdown",
+          visibleIf: "{employment_status}='employed'",
+          name: "income",
+          analytics: true,
+          title: "What is your monthly income?",
+          choices: [
+            { value: "0_500", text: "0-500" },
+            { value: "501_1000", text: "501-1000" },
+            { value: "1001_1500", text: "1001-1500" },
+            { value: "1501_2000", text: "1501-2000" },
+            { value: "2001_plus", text: "Over 2000" },
+          ],
+        },
+        {
+          type: "dropdown",
+          name: "parental_education",
+          analytics: true,
+          title: "What is the highest level of education of your parents?",
+          choices: [
+            { value: "no_degree", text: "No degree" },
+            { value: "high_school", text: "High School Diploma" },
+            { value: "bachelor", text: "Bachelor's Degree" },
+            { value: "master", text: "Master's Degree" },
+            { value: "doctorate", text: "Doctorate" },
+          ],
+        },
+        {
           type: "matrix",
           name: "personal_info",
           analytics: true,
@@ -108,8 +143,6 @@ We sincerely thank you for your time and valuable contribution. Should you have 
               { value: 5, text: "Yes a lot" },
             ],
           rows: [
-            { value: "online_games", text: "I am familiar with online games" },
-            { value: "taking_experiments", text: "I often take part in online experiments like this" },
             { value: "generous", text: "I am generous" },
             { value: "competitive", text: "I am competitive " },
           ],

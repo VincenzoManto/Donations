@@ -48,3 +48,16 @@ body {
   flex-direction: column;
   gap: 16px;
 }
+
+
+
+#goog-gt-tt,
+[class*="goog-te-banner-frame"],
+[class*="goog-te-gadget"] {
+  display: none !important;
+}
+
+font {
+  background: unset !important;
+  box-shadow: unset !important;
+}
