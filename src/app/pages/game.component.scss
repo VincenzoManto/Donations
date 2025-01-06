@@ -32,18 +32,19 @@ body {
 }
 
 .example {
-  position: relative;
+  position: relative; 
   &:after {
     z-index: 9999;
     position: absolute;
     color: #fff;
-    top: 45%;
+    top: 50%;
     font-size: xx-large;
     font-weight: bold;
     left: 0;
+    transform: rotate(-45deg);
     width: 100%;
     content: "EXAMPLE";
-    opacity: 0.3;
+    opacity: 0.18;
     text-align: center;
   }
 }
@@ -382,6 +383,6 @@ ul.timeline > li:before {
 
 .preview {
   object-fit: cover;
-  max-height: 50dvh;
+  /* max-height: 50dvh; */
   height: 100%;
 }

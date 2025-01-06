@@ -52,7 +52,7 @@ export class GameComponent implements OnInit, AfterViewInit {
    * Numero totale di vite.
    * @type {number}
    */
-  TOTAL_LIVES = 1;
+  TOTAL_LIVES = 5;
   /**
    * Array delle vite.
    * @type {number[]}
@@ -139,6 +139,11 @@ export class GameComponent implements OnInit, AfterViewInit {
     q2: null,
     q3: null,
   };
+
+  lifeves = "";
+  lifevesMax = "";
+  lifevesKeep = "";
+ 
 
   correctAnswers = {
     q1: 'A',
@@ -365,7 +370,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
-    }, 500);
+    }, 200);
   }
 
   incrementAfterDonation() {
@@ -395,7 +400,7 @@ export class GameComponent implements OnInit, AfterViewInit {
       calls.push(
         this.http.put(
           SurveyService.getUrl(`lastDonation${this.machineCode[0]}`),
-          { ...this.donation, amount: Math.min(5, this.donation.amount) }
+          { ...this.donation, amount: this.donation.amount }
         )
       );
     }
