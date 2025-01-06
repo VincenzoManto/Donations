@@ -12,6 +12,7 @@ import { PostSurvey } from "../data/post.survey";
 import { Model, SurveyModel } from "survey-core";
 import { PreSurvey } from "../data/pre.survey";
 import { GameService } from "./game.service";
+import { Router } from '@angular/router';
 declare var $, bootstrap: any;
 declare var SurveyTheme: any;
 
@@ -153,6 +154,8 @@ export class GameComponent implements OnInit, AfterViewInit {
 
   tutorialStep = 1;
 
+  referral: string | null = null;
+
   areAllAnswersCorrect(): boolean {
     return (
       this.answers.q1 === this.correctAnswers.q1 &&
@@ -182,7 +185,7 @@ export class GameComponent implements OnInit, AfterViewInit {
     return new Array(Math.max(0, this.donation.lives - 1)).fill(0);
   }
 
-  constructor(public http: HttpClient, private gameService: GameService, private surveyService: SurveyService) {}
+  constructor(public http: HttpClient, private gameService: GameService, private surveyService: SurveyService, private router: Router) {}
 
   /**
    * Metodo di inizializzazione del componente.
@@ -195,12 +198,19 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.state = State.PRE;
     }
 
-    const ref = new URLSearchParams(location.href).get("referal");
+/*    const ref = new URLSearchParams(location.href).get("referal");
+console.log(ref); */
+
+const url = this.router.url;
+    const fragment = url.split('?')[1]; // Get everything after `?`
+    const params = new URLSearchParams(fragment);
+    this.referral = params.get('referral');
+    console.log('Referral source:', this.referral);
 
     this.preSurvey = new Model(PreSurvey);
     // Ottiene il dispositivo e il browser dell'utente.
     const device = this.surveyService.getDeviceAndBrowser();
-    this.preSurvey.setValue('refer', ref);
+    this.preSurvey.setValue('refer', this.referral);
     this.preSurvey.setValue('experiment_group', this.machineCode[0] === '0' ? 'anonimo' : 'non_anonimo');
     this.preSurvey.setValue('device', device.device);
     this.preSurvey.setValue('browser', device.browser);
