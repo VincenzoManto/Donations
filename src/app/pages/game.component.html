@@ -19,7 +19,7 @@
     </div>
     <div class="position-fixed top-0 text-center w-100 row left-50">
       <small class="col-12 notranslate"
-        >Match 
+        >Match
         {{ currentMatch }} / {{ TOTAL_MATCHES }}</small
       >
       <div class="col-6">
@@ -49,56 +49,60 @@
   </div>
 </div>
 
-<div
-  class="row w-50 left-50 position-absolute justify-content-center m-2 align-items-center"
-  *ngIf="state === status.LEADERBOARD"
+<div class="row justify-content-center m-0"
+*ngIf="state === status.LEADERBOARD"
 >
-  <div class="col-auto text-center">
-    <img
-      src="https://cdn-icons-gif.flaticon.com/17864/17864880.gif"
-      width="50"
-      class="m-auto"
-      style="filter: hue-rotate(45deg) invert(1); mix-blend-mode: lighten"
-    />
-    <h2>Leaderboard</h2>
-    <hr />
-  </div>
-  <h5 class="col-12 row">
-    <b class="col-3">Player</b>
-    <b class="col-3">Score</b>
-    <b class="col-3">Donation</b>
-    <b class="col-3" *ngIf="machineCode[0] === '1'">Message</b>
-  </h5>
+
   <div
-    class="col-12 leaderrow"
-    *ngFor="let row of leaderboard; let idx = index"
+    class="row justify-content-center align-items-center col-12 col-md-9 col-lg-6"
   >
+    <div class="col-auto text-center">
+      <img
+        src="https://cdn-icons-gif.flaticon.com/17864/17864880.gif"
+        width="50"
+        class="m-auto"
+        style="filter: hue-rotate(45deg) invert(1); mix-blend-mode: lighten"
+      />
+      <h2>Leaderboard</h2>
+      <hr />
+    </div>
+    <h5 class="col-12 row">
+      <b class="col-12 col-lg-4">Player</b>
+      <b class="col-12 col-lg-2">Score</b>
+      <b class="col-12 col-lg-2">Donation</b>
+      <b class="col-12 col-lg-4" *ngIf="machineCode[0] === '1'">Message</b>
+    </h5>
     <div
-      class="row p-2 mb-0"
-      [class.border-warning]="row.me"
-      [class.alert]="row.me"
+      class="col-12 leaderrow"
+      *ngFor="let row of leaderboard; let idx = index"
     >
-      <div class="col-12 col-md-6 col-lg-3">
-        #{{ idx + 1 }}&emsp;{{ row.donation1?.name || row?.name || "" }}
-      </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <img
-          src="https://cdn-icons-gif.flaticon.com/6455/6455041.gif"
-          width="20"
-          style="filter: hue-rotate(45deg) invert(1); mix-blend-mode: lighten"
-        />
-        <span>{{ row.totalScore }}</span>
-      </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <img
-          src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
-          width="20"
-          style="filter: hue-rotate(45deg) invert(1); mix-blend-mode: lighten"
-        />
-        <span>{{ row.donation1?.amount }}</span>
-      </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <span>{{ row.donation1?.message }}</span>
+      <div
+        class="row p-2 mb-0 border-bottom"
+        [class.border-warning]="row.me"
+        [class.alert]="row.me"
+      >
+        <div class="col-12 col-lg-4" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+          #{{ idx + 1 }}&emsp;{{ row.donation1?.name || row?.name || "" }}
+        </div>
+        <div class="col-12 col-lg-2">
+          <img
+            src="https://cdn-icons-gif.flaticon.com/6455/6455041.gif"
+            width="20"
+            style="filter: hue-rotate(45deg) invert(1); mix-blend-mode: lighten"
+          />
+          <span>{{ row.totalScore }}</span>
+        </div>
+        <div class="col-12 col-lg-2">
+          <img
+            src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
+            width="20"
+            style="filter: hue-rotate(45deg) invert(1); mix-blend-mode: lighten"
+          />
+          <span>{{ row.donation1?.amount }}</span>
+        </div>
+        <div class="col-12 col-lg-4">
+          <span>{{ row.donation1?.message }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -202,7 +206,7 @@
             data-bs-placement="top"
             title="You have too keep at least a life for yourself in order to play the last match"></i>
           </p>
-         
+
           <img
             *ngFor="let l of donationArray; let idx = index"
             [class.opacity-25]="idx >= donation.amount"
@@ -263,12 +267,12 @@
                 src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
                 width="20"
                 class="to-yellow"
-              /> 
+              />
               for myself
             </small>
           </p>
           <div class="alert alert-secondary">
-          <b>You are donating  <strong class="notranslate"> {{donation.amount}}</strong> 
+          <b>You are donating  <strong class="notranslate"> {{donation.amount}}</strong>
             <img
             src="https://cdn-icons-gif.flaticon.com/14118/14118583.gif"
             width="20"
@@ -428,7 +432,7 @@
         <h3 class="notranslate">
           <b>{{ incomingDonation.name || "Anonymous benefactor" }}</b
           >&emsp;
-          
+
         </h3>
         <p *ngIf="incomingDonation.message" class="text-muted m-1">
           Who also left you a message
@@ -467,13 +471,13 @@
           </p>
 
           <!--  <p><b>Controls:</b></p> -->
-          <!-- <ul> 
+          <!-- <ul>
           <p *ngIf="!isMobile()">
             Use <kbd>↑</kbd> <kbd>↓</kbd>, <kbd>W</kbd> <kbd>S</kbd>, or your
             mouse.
           </p>
           <p *ngIf="isMobile()">Drag your finger on the touchscreen.</p>
-          </ul> 
+          </ul>
           <h5><b>Icons</b></h5>-->
           <p>
             <b>Lives </b
@@ -486,9 +490,9 @@
             <i class=" hover-overlay fa-solid fa-circle-info m-1" style="filter: invert(0.6);" data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="Once you lose all your lives, the match ends" ></i>
-            
+
           </p>
-          
+
           <p>
             <b>Points </b>
             <img
@@ -496,7 +500,7 @@
               width="30"
               class="to-yellow"
               alt="Points Icon"
-            />: Earn points as you play  
+            />: Earn points as you play
             <i class=" hover-overlay fa-solid fa-circle-info m-1" style="filter: invert(0.6);" data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="The sum of points earned in first and second match will determine your ranking in the leaderboard"></i>
@@ -571,14 +575,14 @@
         </div>
 
         <div class="col-12 col-md-6 example">
-          
+
           <img
-          
+
           src="assets/tutorial_video.gif"
           alt="Game Preview"
           class="w-100 rounded-3 preview"
         />
-                   
+
         </div>
       </div>
     </div>
