@@ -7,6 +7,7 @@ h1+span {
 }
 body {
   margin: 0;
+  overscroll-behavior: none !important; /* dovrebbe rimuovere il pull-to-refresh da cellulare */
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
