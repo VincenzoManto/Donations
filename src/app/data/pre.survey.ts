@@ -23,6 +23,31 @@ Hello and welcome to our study! You’ll play a simple game.
 <h6>Privacy and data sharing</h6>
 Some of the game choice you make <b>may be shared publicly</b> in aggregated, anonymous or personally identifiable form for research purposes. The results will be used solely for academic purposes and published in compliance with deontological ethics.
 
+<h6>Structure</h6>
+
+<div class="row position-relative mt-2 mb-2">
+            <hr               class="position-absolute w-100 m-auto"
+              style="z-index: 0; top: 50%; left: 12.5%"             />
+            <div               class="col-3 text-center w-100 justify-content-between row"
+              style="z-index: 9999"            >
+              <div class="badge rounded-pill cursor-pointer bg-warning text-dark col-auto mb-1">
+                1. Pre-game survey
+              </div>
+
+              <div class="badge rounded-pill cursor-pointer bg-warning text-dark col-auto mb-1">
+                2. First game match
+              </div>
+
+              <div class="badge rounded-pill cursor-pointer bg-warning text-dark col-auto mb-1">
+                3. Second game match
+              </div>
+
+              <div class="badge rounded-pill cursor-pointer bg-warning text-dark col-auto mb-1">
+                4. Post-game survey
+              </div>
+            </div>
+          </div>
+
 We sincerely thank you for your time and valuable contribution. Should you have any questions or require further information, please do not hesitate to contact us.</p>`,
         },
         {
