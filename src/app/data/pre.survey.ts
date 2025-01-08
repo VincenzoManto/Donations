@@ -1,6 +1,4 @@
 export const PreSurvey = {
-  title: "Experiment on sharing behavior",
-  description: "A study on decision-making",
   logoPosition: "right",
   completedHtml: "<h3>Now start playing!</h3>",
 
@@ -18,9 +16,9 @@ export const PreSurvey = {
         {
           type: "html",
           name: "introduction",
-          html: `<p><h3>Introduction to this experiment game</h3>
+          html: `<p><h3>Introduction to this game</h3>
 
-Hello and welcome to our study! You’ll play a simple and fun game while helping us understand how people make decisions about sharing.
+Hello and welcome to our study! You’ll play a simple game.
 
 <h6>Privacy and data sharing</h6>
 Some of the game choice you make <b>may be shared publicly</b> in aggregated, anonymous or personally identifiable form for research purposes. The results will be used solely for academic purposes and published in compliance with deontological ethics.

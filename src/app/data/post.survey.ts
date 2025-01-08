@@ -1,8 +1,6 @@
 export const PostSurvey = {
-  title: "Experiment on Financial Behavior",
-  description: "A study on financial decision-making.",
   logoPosition: "right",
-  completedHtml: "<h3>Thank you for participating in this experiment!</h3>",
+  completedHtml: "<h3>Thank you for participating!</h3>",
   pages: [
     /* {
       name: "habits",
@@ -144,7 +142,7 @@ export const PostSurvey = {
           name: "overall_evaluation",
           analytics: true,
           title:
-            "How would you rate your overall experience with this experiment?",
+            "How would you rate your overall experience?",
         },
       ],
     },
