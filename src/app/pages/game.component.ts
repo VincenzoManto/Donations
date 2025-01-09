@@ -144,7 +144,7 @@ export class GameComponent implements OnInit, AfterViewInit {
   lifeves = "";
   lifevesMax = "";
   lifevesKeep = "";
- 
+
 
   correctAnswers = {
     q1: 'A',
@@ -410,7 +410,9 @@ const url = this.router.url;
       calls.push(
         this.http.put(
           SurveyService.getUrl(`lastDonation${this.machineCode[0]}`),
-          { ...this.donation, amount: this.donation.amount }
+          { ...this.donation, amount: this.donation.amount, pre: {
+            experiment_group: 0
+          } }
         )
       );
     }
