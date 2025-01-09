@@ -16,6 +16,7 @@ import { AnalyticsTabulatorPage } from "./pages/analytics.tabulator.page";
 import { SurveyModule } from "survey-angular-ui";
 import { SurveyCreatorModule } from "survey-creator-angular";
 import { GameComponent } from "./pages/game.component";
+import { AngularD3CloudModule } from "angular-d3-cloud";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,15 @@ import { GameComponent } from "./pages/game.component";
     GameComponent,
     AnalyticsTabulatorPage,
   ],
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule, SurveyModule, SurveyCreatorModule, FormsModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    SurveyModule,
+    SurveyCreatorModule,
+    AngularD3CloudModule,
+    FormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

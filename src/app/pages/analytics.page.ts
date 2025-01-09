@@ -18,6 +18,19 @@ declare var echarts, Grid3DComponent, Bar3DChart;
 })
 export class AnalyticsPage {
   /**
+   * Word cloud dei messaggi delle donazioni.
+   * @type {Object}
+  */
+  wordCloud = [];
+  /**
+   * Numero totale di partecipanti al sondaggio.
+   */
+  totalParticipants = {
+    ano: 0,
+    non_ano: 0,
+    tot: 0,
+  };
+  /**
    * Dati filtrati in base al valore del filtro.
    */
   data;
@@ -122,6 +135,12 @@ export class AnalyticsPage {
     this.http.get(SurveyService.getUrl("")).subscribe((data: any) => {
       this.originalData = Object.values(data || {}) || [];
       this.filter = "anonimo";
+      this.totalParticipants = {
+        ano: this.originalData.filter((e) => e.pre?.experiment_group === "anonimo").length,
+        non_ano: this.originalData.filter((e) => e.pre?.experiment_group === "non_anonimo").length,
+        tot: this.originalData.length - 2
+      }
+      this.createWordCloud();
       const chartDom = document.getElementById("chart") as HTMLElement;
       this.histoChart = echarts.init(chartDom);
       this.histoChart.setOption({
@@ -130,11 +149,32 @@ export class AnalyticsPage {
         },
         color: ["orange", "yellow"],
       });
-      if (this.originalData?.length) {
+     /*  if (this.originalData?.length) {
         this.analyticsService.generateEChart.bind(this)();
-/*         this.analyticsService.generateEChartAvg.bind(this)();
-        this.analyticsService.generateEChart3D.bind(this)(); */
+      } */
+    });
+  }
+
+  createWordCloud() {
+    let message = '';
+    this.originalData.forEach((e) => {
+      message += (e.donation1?.message || '') + ' ';
+    });
+    message = message.replace(/[^a-zA-Z ]/g, '');
+    const words = message.split(' ').filter(e => e);
+    const wordCount = {};
+    words.forEach((word) => {
+      if (wordCount[word]) {
+        wordCount[word]++;
+      } else {
+        wordCount[word] = 1;
       }
+    });
+    this.wordCloud = Object.keys(wordCount).map((word) => {
+      return {
+        text: word,
+        value: wordCount[word] * 60,
+      };
     });
   }
 
