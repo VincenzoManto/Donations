@@ -27,6 +27,7 @@ export class AnalyticsPage {
     non_ano: 0,
     ano_std: 0,
     non_ano_std: 0,
+    pValue: 1,
     valid: false,
   };
 
@@ -176,12 +177,14 @@ export class AnalyticsPage {
       const non_ano_donation = non_ano.map(
         (e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1)
       );
+      const ttest = this.ttest(ano_donation, non_ano_donation);
       this.results = {
         ano: _.mean(ano_donation) * 100,
         non_ano: _.mean(non_ano_donation) * 100,
         ano_std: this.σ(ano_donation),
         non_ano_std: this.σ(non_ano_donation),
-        valid: this.ttest(ano_donation, non_ano_donation),
+        valid: ttest.valid,
+        pValue: ttest.pValue,
       };
 
       this.createWordCloud();
@@ -270,6 +273,6 @@ export class AnalyticsPage {
       2 * (1 - jStat.studentt.cdf(Math.abs(tStatistic), degreesOfFreedom));
 
     // Return true if p-value < alpha (statistically significant)
-    return pValue < alpha;
+    return {pValue, valid: pValue < alpha};
   }
 }
