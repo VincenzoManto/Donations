@@ -33,6 +33,7 @@
     "jquery": "^3.5.1",
     "jspdf-autotable": "3.0.10",
     "jspdf1": "npm:jspdf@1.5.3",
+    "jstat": "^1.9.6",
     "light-release": "^2.4.1",
     "lodash": "^4.17.21",
     "rxjs": "~7.4.0",

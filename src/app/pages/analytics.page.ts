@@ -11,6 +11,7 @@ import { PostSurvey } from "../data/post.survey";
 import { PreSurvey } from "../data/pre.survey";
 import _ from "lodash";
 declare var echarts, Grid3DComponent, Bar3DChart;
+import * as jStat from "jstat";
 
 @Component({
   selector: "analytics-page",
@@ -26,6 +27,7 @@ export class AnalyticsPage {
     non_ano: 0,
     ano_std: 0,
     non_ano_std: 0,
+    valid: false,
   };
 
   /**
@@ -162,15 +164,24 @@ export class AnalyticsPage {
         ).length,
         tot: this.originalData.length - 2,
       };
-      const ano = this.originalData.filter(e => e.pre?.experiment_group === "anonimo");
-      const non_ano = this.originalData.filter(e => e.pre?.experiment_group === "non_anonimo");
-      const ano_donation = ano.map((e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1));
-      const non_ano_donation = non_ano.map((e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1));
+      const ano = this.originalData.filter(
+        (e) => e.pre?.experiment_group === "anonimo"
+      );
+      const non_ano = this.originalData.filter(
+        (e) => e.pre?.experiment_group === "non_anonimo"
+      );
+      const ano_donation = ano.map(
+        (e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1)
+      );
+      const non_ano_donation = non_ano.map(
+        (e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1)
+      );
       this.results = {
         ano: _.mean(ano_donation) * 100,
         non_ano: _.mean(non_ano_donation) * 100,
         ano_std: this.σ(ano_donation),
         non_ano_std: this.σ(non_ano_donation),
+        valid: this.ttest(ano_donation, non_ano_donation),
       };
 
       this.createWordCloud();
@@ -182,9 +193,6 @@ export class AnalyticsPage {
         },
         color: ["orange", "yellow"],
       });
-      /*  if (this.originalData?.length) {
-        this.analyticsService.generateEChart.bind(this)();
-      } */
     });
   }
 
@@ -217,5 +225,51 @@ export class AnalyticsPage {
    */
   generateEChart(type = "donations") {
     this.analyticsService.generateEChart.bind(this)(type);
+  }
+
+  ttest(sample1, sample2, alpha = 0.05) {
+    if (sample1.length === 0 || sample2.length === 0) {
+      throw new Error("Both samples must have at least one observation.");
+    }
+
+    // Helper function to calculate mean
+    const mean = (arr) => arr.reduce((sum, val) => sum + val, 0) / arr.length;
+
+    // Helper function to calculate variance
+    const variance = (arr, meanValue) =>
+      arr.reduce((sum, val) => sum + Math.pow(val - meanValue, 2), 0) /
+      (arr.length - 1);
+
+    // Calculate means
+    const mean1 = mean(sample1);
+    const mean2 = mean(sample2);
+
+    // Calculate variances
+    const variance1 = variance(sample1, mean1);
+    const variance2 = variance(sample2, mean2);
+
+    // Calculate pooled standard error
+    const standardError = Math.sqrt(
+      variance1 / sample1.length + variance2 / sample2.length
+    );
+
+    // Calculate t-statistic
+    const tStatistic = (mean1 - mean2) / standardError;
+
+    // Calculate degrees of freedom (Welch-Satterthwaite approximation)
+    const numerator = Math.pow(
+      variance1 / sample1.length + variance2 / sample2.length,
+      2
+    );
+    const denominator =
+      Math.pow(variance1 / sample1.length, 2) / (sample1.length - 1) +
+      Math.pow(variance2 / sample2.length, 2) / (sample2.length - 1);
+    const degreesOfFreedom = numerator / denominator;
+
+    const pValue =
+      2 * (1 - jStat.studentt.cdf(Math.abs(tStatistic), degreesOfFreedom));
+
+    // Return true if p-value < alpha (statistically significant)
+    return pValue < alpha;
   }
 }
