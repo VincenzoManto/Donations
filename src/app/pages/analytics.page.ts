@@ -9,6 +9,7 @@ import { SurveyService } from "./survey.service";
 import { AnalyticsService } from "./analytics.service";
 import { PostSurvey } from "../data/post.survey";
 import { PreSurvey } from "../data/pre.survey";
+import _ from "lodash";
 declare var echarts, Grid3DComponent, Bar3DChart;
 
 @Component({
@@ -18,9 +19,19 @@ declare var echarts, Grid3DComponent, Bar3DChart;
 })
 export class AnalyticsPage {
   /**
+   * Risultati dell'analisi delle donazioni.
+   **/
+  results = {
+    ano: 0,
+    non_ano: 0,
+    ano_std: 0,
+    non_ano_std: 0,
+  };
+
+  /**
    * Word cloud dei messaggi delle donazioni.
    * @type {Object}
-  */
+   */
   wordCloud = [];
   /**
    * Numero totale di partecipanti al sondaggio.
@@ -48,14 +59,7 @@ export class AnalyticsPage {
   /**
    * Colori utilizzati nei grafici.
    */
-  colors = [
-    "#FF6633",
-    "#FFB399",
-    "#FF33FF",
-    "#FFFF99",
-    "#00B3E6",
-    "#E6B333",
-  ]
+  colors = ["#FF6633", "#FFB399", "#FF33FF", "#FFFF99", "#00B3E6", "#E6B333"];
 
   /**
    * Valore del filtro attuale.
@@ -80,7 +84,9 @@ export class AnalyticsPage {
     this.filterValue = value;
     this.data = null;
     setTimeout(() => {
-      this.data = this.originalData.filter((e) => e.pre?.experiment_group === value).map(e => e.pre);
+      this.data = this.originalData
+        .filter((e) => e.pre?.experiment_group === value)
+        .map((e) => e.pre);
     }, 500);
   }
 
@@ -122,24 +128,51 @@ export class AnalyticsPage {
     return histo.map((item, index) => [min + (index + 1) * size, item]);
   }
 
+  σ(array) {
+    const avg = _.sum(array) / array.length;
+    return Math.sqrt(
+      _.sum(_.map(array, (i) => Math.pow(i - avg, 2))) / array.length
+    );
+  }
+
   /**
    * Costruttore del componente AnalyticsPage.
    * @param http Servizio HttpClient per le richieste HTTP.
    * @param analyticsService Servizio per la generazione dei grafici di analisi.
    */
-  constructor(private http: HttpClient, private analyticsService: AnalyticsService) {
+  constructor(
+    private http: HttpClient,
+    private analyticsService: AnalyticsService
+  ) {
     this.json = [PreSurvey, PostSurvey];
-    this.json.forEach(d => d.pages.forEach((e) => {
-      e.elements = e.elements.filter((e) => e.analytics);
-    }));
+    this.json.forEach((d) =>
+      d.pages.forEach((e) => {
+        e.elements = e.elements.filter((e) => e.analytics);
+      })
+    );
     this.http.get(SurveyService.getUrl("")).subscribe((data: any) => {
       this.originalData = Object.values(data || {}) || [];
       this.filter = "anonimo";
       this.totalParticipants = {
-        ano: this.originalData.filter((e) => e.pre?.experiment_group === "anonimo").length,
-        non_ano: this.originalData.filter((e) => e.pre?.experiment_group === "non_anonimo").length,
-        tot: this.originalData.length - 2
-      }
+        ano: this.originalData.filter(
+          (e) => e.pre?.experiment_group === "anonimo"
+        ).length,
+        non_ano: this.originalData.filter(
+          (e) => e.pre?.experiment_group === "non_anonimo"
+        ).length,
+        tot: this.originalData.length - 2,
+      };
+      const ano = this.originalData.filter(e => e.pre?.experiment_group === "anonimo");
+      const non_ano = this.originalData.filter(e => e.pre?.experiment_group === "non_anonimo");
+      const ano_donation = ano.map((e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1));
+      const non_ano_donation = non_ano.map((e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1));
+      this.results = {
+        ano: _.mean(ano_donation) * 100,
+        non_ano: _.mean(non_ano_donation) * 100,
+        ano_std: this.σ(ano_donation),
+        non_ano_std: this.σ(non_ano_donation),
+      };
+
       this.createWordCloud();
       const chartDom = document.getElementById("chart") as HTMLElement;
       this.histoChart = echarts.init(chartDom);
@@ -149,19 +182,19 @@ export class AnalyticsPage {
         },
         color: ["orange", "yellow"],
       });
-     /*  if (this.originalData?.length) {
+      /*  if (this.originalData?.length) {
         this.analyticsService.generateEChart.bind(this)();
       } */
     });
   }
 
   createWordCloud() {
-    let message = '';
+    let message = "";
     this.originalData.forEach((e) => {
-      message += (e.donation1?.message || '') + ' ';
+      message += (e.donation1?.message || "") + " ";
     });
-    message = message.replace(/[^a-zA-Z ]/g, '');
-    const words = message.split(' ').filter(e => e);
+    message = message.replace(/[^a-zA-Z ]/g, "");
+    const words = message.split(" ").filter((e) => e);
     const wordCount = {};
     words.forEach((word) => {
       if (wordCount[word]) {
@@ -182,7 +215,7 @@ export class AnalyticsPage {
    * Genera un grafico EChart per la categoria specificata.
    * @param type Il tipo di grafico da generare (predefinito: 'donations').
    */
-  generateEChart(type = 'donations') {
+  generateEChart(type = "donations") {
     this.analyticsService.generateEChart.bind(this)(type);
   }
 }

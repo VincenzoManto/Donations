@@ -12,6 +12,7 @@
     <div id="chart" style="width: 100%; height: 50dvh; flex: 2"></div>
   </div> -->
 
+
   <div class="d-flex justify-content-center m-2">
 
     <div class="card">
@@ -44,6 +45,23 @@
     {{totalParticipants.non_ano}}
     </button>
   </div>
+  <div class="m-auto d-flex justify-content-center">
+    <p class="m-2">
+    <progress value="{{results.ano}}" max="100"></progress><br>
+
+      {{results.ano | number: '1.2-2'}}% (σ = {{results.ano_std | number: '1.2-2'}})
+    </p>
+    <p class="m-2">
+    <progress value="{{results.non_ano}}" max="100"></progress><br>
+
+      {{results.non_ano | number: '1.2-2'}}% (σ = {{results.non_ano_std | number: '1.2-2'}})
+    </p>
+  </div>
+  <h3>
+    Δ = {{results.non_ano - results.ano | number: '1.2-2'}}%
+  </h3>
+
+  <hr>
 
   <h2>Pre-survey results</h2>
   <survey-analytics
