@@ -7,7 +7,7 @@ export const PreSurvey = {
       name: "intro",
       elements: [
         {
-          type: "string",
+          type: "text",
           name: "refer",
           visibleIf: "false",
           title: "Referer",
