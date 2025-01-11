@@ -171,12 +171,17 @@ export class AnalyticsPage {
       const non_ano = this.originalData.filter(
         (e) => e.pre?.experiment_group === "non_anonimo"
       );
+
       const ano_donation = ano.map(
-        (e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1)
-      );
+        (e) => e.post ? (e.donation1?.amount) / (e.donation1?.lives || 1) : NaN
+      ).filter(e => e >= 0);
       const non_ano_donation = non_ano.map(
-        (e) => (e.donation1?.amount || 0) / (e.donation1?.lives || 1)
-      );
+        (e) => e.post ? (e.donation1?.amount) / (e.donation1?.lives || 1) : NaN
+      ).filter(e => e >= 0);
+
+
+      console.log(ano_donation, non_ano_donation);
+
       const ttest = this.ttest(ano_donation, non_ano_donation);
       this.results = {
         ano: _.mean(ano_donation) * 100,
