@@ -198,10 +198,8 @@ export class GameComponent implements OnInit, AfterViewInit {
       this.state = State.PRE;
     }
 
-/*    const ref = new URLSearchParams(location.href).get("referal");
-console.log(ref); */
 
-const url = this.router.url;
+    const url = location.href;
     const fragment = url.split('?')[1]; // Get everything after `?`
     const params = new URLSearchParams(fragment);
     this.referral = params.get('referral');
